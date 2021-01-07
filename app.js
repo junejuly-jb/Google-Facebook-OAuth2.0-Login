@@ -1,9 +1,18 @@
 const express = require('express')
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
+const mongoose = require('mongoose')
+const dotevn = require('dotenv')
 
 const app = express();
 const apiRoutes = require('./routes/api')
+
+dotevn.config()
+
+mongoose.connect(process.env.DB_CONNECT, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    }, () => console.log('Connected to Database'))
 
 
 //Middlewares
