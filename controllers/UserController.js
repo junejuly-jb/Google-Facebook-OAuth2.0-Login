@@ -1,6 +1,15 @@
-const { response } = require('express')
 const { registerValidation } = require('../helpers/RouteHelpers')
 const User = require('../models/User')
+const JWT = require('jsonwebtoken')
+
+signToken = user => {
+    return JWT.sign({
+        iss: 'June Amante',
+        sub: user.id,
+        iat: new Date().getTime(),
+        exp: new Date().setDate(new Date().getDate() + 1)
+    }, '@thisISAuthenticationPASSPHRASE')
+}
 
 
 const register = async (req, res) => {
@@ -14,8 +23,15 @@ const register = async (req, res) => {
     if (foundUser) return res.status(403).json({ error: 'Email already exists' })
 
     const newUser = new User({ email, password })
-    await newUser.save()
-    return res.status(200).json({ msg: 'user created successfully' })
+
+    try {
+        await newUser.save()
+        const token = signToken(newUser)
+
+        return res.status(200).json({ msg: 'user created successfully', token })
+    } catch (err) {
+        return res.status(500).json({ error: err})
+    }
 
 }
 
@@ -23,6 +39,10 @@ const login = (req, res) => {
     return res.status(200).json({ msg: 'hello' })
 }
 
+
+const protectedRoute = (req, res) => {
+    return res.status(200).json({ msg: 'hello' })
+}
 module.exports = {
-    register, login
+    register, login, protectedRoute
 }
