@@ -8,7 +8,7 @@ signToken = user => {
         sub: user.id,
         iat: new Date().getTime(),
         exp: new Date().setDate(new Date().getDate() + 1)
-    }, '@thisISAuthenticationPASSPHRASE')
+    }, process.env.PASS_PHRASE)
 }
 
 
