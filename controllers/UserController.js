@@ -36,7 +36,8 @@ const register = async (req, res) => {
 }
 
 const login = (req, res) => {
-    return res.status(200).json({ msg: 'hello' })
+    const token = signToken(req.user)
+    return res.status(200).json({ token })
 }
 
 
