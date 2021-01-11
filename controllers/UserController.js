@@ -41,9 +41,14 @@ const login = (req, res) => {
 }
 
 
+const googleAuth = (req, res) => {
+    const token = signToken(req.user)
+    return res.status(200).json({ token })
+}
+
 const protectedRoute = (req, res) => {
     return res.status(200).json({ msg: 'hello' })
 }
 module.exports = {
-    register, login, protectedRoute
+    register, login, protectedRoute, googleAuth
 }
