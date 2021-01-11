@@ -32,9 +32,31 @@ passport.use('googleToken', new GooglePlusTokenStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET
 }, async (accessToken, refreshToken, profile, done) => {
-    console.log('accessToken', accessToken)
-    console.log('refreshToken', refreshToken)
-    console.log('profile', profile)
+    // check user exists
+        
+        try {
+
+            const userExists = await User.findOne({ "google.id": profile.id })
+            if (userExists) {
+                console.log('user exists')
+                return done(null, userExists)
+            }
+
+            const newUser = new User({
+                method: 'google',
+                google: {
+                    id: profile.id,
+                    email: profile.emails[0].value
+                }
+            })
+            console.log('new user!')
+            await newUser.save()
+            done(null, newUser)
+
+        } catch (error) {
+            done(error, false, error.message)
+        }
+        
 }))
 
 
