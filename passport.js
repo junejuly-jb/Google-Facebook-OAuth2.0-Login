@@ -70,14 +70,36 @@ passport.use('facebookToken', new FacebookTokenStrategy({
     
         console.log('profile', profile)
         console.log('accessToken', accessToken)
+
+    try {
         
+        const userExists = await User.findOne({ 'facebook.id': profile.id })
+        if (userExists) {
+            console.log('user exists')
+            return done(null, userExists)
+        }
+
+        const newUser = new User({
+            method: 'facebook',
+            facebook: {
+                id: profile.id,
+                email: profile.emails[0].value
+            }
+        })
+
+        await newUser.save()
+        done(null, newUser)
+        
+    } catch (error) {
+        done(error, false, error.message)
+    }
+
 }))
 
 
 // LOCAL STRAT
 passport.use(new LocalStrategy({
     usernameField: 'email'
-
 }, async (email, password, done) => {
     try {
         const user = await User.findOne({ 'local.email': email })
