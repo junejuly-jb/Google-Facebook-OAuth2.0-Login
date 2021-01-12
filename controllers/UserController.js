@@ -52,9 +52,14 @@ const googleAuth = (req, res) => {
     return res.status(200).json({ token })
 }
 
+const facebookAuth = (req, res) => {
+    const token = signToken(req.user)
+    return res.status(200).json({ token })
+}
+
 const protectedRoute = (req, res) => {
     return res.status(200).json({ msg: 'hello' })
 }
 module.exports = {
-    register, login, protectedRoute, googleAuth
+    register, login, protectedRoute, googleAuth, facebookAuth
 }

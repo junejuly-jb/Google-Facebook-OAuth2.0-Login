@@ -4,6 +4,7 @@ const { ExtractJwt } = require('passport-jwt')
 const User = require('./models/User')
 const LocalStrategy = require('passport-local').Strategy
 const GooglePlusTokenStrategy = require('passport-google-plus-token')
+const FacebookTokenStrategy = require('passport-facebook-token')
 require('dotenv').config()
 
 passport.use(new JwtStrategy({
@@ -56,6 +57,19 @@ passport.use('googleToken', new GooglePlusTokenStrategy({
         } catch (error) {
             done(error, false, error.message)
         }
+        
+}))
+
+
+// FACEBOOK STRAT 
+
+passport.use('facebookToken', new FacebookTokenStrategy({
+    clientID: process.env.FACEBOOK_CLIENT_ID,
+    clientSecret: process.env.FACEBOOK_CLIENT_SECRET
+}, async (accessToken, refreshToken, profile, done) => {
+    
+        console.log('profile', profile)
+        console.log('accessToken', accessToken)
         
 }))
 
