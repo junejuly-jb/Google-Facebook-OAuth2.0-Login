@@ -19,10 +19,16 @@ const register = async (req, res) => {
     
     const { email, password } = req.body
 
-    const foundUser = await User.findOne({ email: email})
+    const foundUser = await User.findOne({ 'local.email': email })
     if (foundUser) return res.status(403).json({ error: 'Email already exists' })
 
-    const newUser = new User({ email, password })
+    const newUser = new User({ 
+        method: 'local',
+        local: {
+            email: email,
+            password: password
+        }
+     })
 
     try {
         await newUser.save()
