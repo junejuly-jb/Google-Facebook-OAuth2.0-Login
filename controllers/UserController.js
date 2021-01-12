@@ -54,7 +54,7 @@ const googleAuth = (req, res) => {
 
 const facebookAuth = (req, res) => {
     const token = signToken(req.user)
-    return res.status(200).json({ token })
+    return res.status(200).json({ token, user: req.user })
 }
 
 const protectedRoute = (req, res) => {
