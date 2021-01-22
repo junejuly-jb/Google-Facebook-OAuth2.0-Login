@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { reduxForm, Field } from 'redux-form'
+import CustomInput from './CustomInput'
 
 class SignUp extends Component{
     render() {
@@ -11,16 +12,20 @@ class SignUp extends Component{
                             name="email"
                             type="text"
                             id="email"
-                            component="input" />
+                            label="enter email"
+                            placeholder="example@gmail.com"
+                            component={CustomInput} />
                     </fieldset>
                     <fieldset>
                         <Field 
                             name="password"
                             type="password"
                             id="password"
-                            component="input" />
+                            label="enter password"
+                            placeholder="********"
+                            component={CustomInput}/>
                     </fieldset>
-                    <button type="submit">Sign Up</button>
+                    <button type="submit" className="btn btn-primary">Sign Up</button>
                 </form>
             </div>
         )
