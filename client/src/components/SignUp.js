@@ -3,12 +3,17 @@ import { reduxForm, Field } from 'redux-form'
 import CustomInput from './CustomInput'
 
 class SignUp extends Component{
+    onSubmit(formData) {
+        console.log('hello')
+        console.log(formData)
+    }
     render() {
+        const { handleSubmit } = this.props
         return (
             <div className="container">
                 <div className="row">
                     <div className="col">
-                        <form>
+                        <form onSubmit={handleSubmit(this.onSubmit)}>
                             <fieldset>
                                 <Field 
                                     name="email"
@@ -27,7 +32,7 @@ class SignUp extends Component{
                                     placeholder="********"
                                     component={CustomInput}/>
                             </fieldset>
-                            <button type="submit" className="btn btn-primary">Sign Up</button>
+                            <button type="submit" className="btn btn-primary my-2">Sign Up</button>
                         </form>
                     </div>
                     <div className="col">
