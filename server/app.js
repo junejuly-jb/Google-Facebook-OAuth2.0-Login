@@ -3,6 +3,7 @@ const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const dotevn = require('dotenv')
+const cors = require('cors')
 
 const app = express();
 const apiRoutes = require('./routes/api')
@@ -18,7 +19,7 @@ mongoose.connect(process.env.DB_CONNECT, {
 //Middlewares
 app.use(morgan('dev'))
 app.use(bodyParser.json())
-
+app.use(cors())
 
 //Routes
 app.use('/api', apiRoutes)
