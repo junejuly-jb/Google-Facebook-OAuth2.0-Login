@@ -42,6 +42,13 @@ class SignUp extends Component{
                                     placeholder="********"
                                     component={CustomInput}/>
                             </fieldset>
+                            {
+                                this.props.errorMessage ? 
+                                <div className="alert alert-danger alert-dismissible fade show my-2" role="alert">
+                                <strong>Error!</strong> {this.props.errorMessage}.
+                                </div>
+                                : null
+                            }
                             <button type="submit" className="btn btn-primary my-2">Sign Up</button>
                         </form>
                     </div>
@@ -59,5 +66,9 @@ class SignUp extends Component{
         )
     }
 }
-
-export default compose(connect(null, actions), reduxForm({ form: 'signup' }))(SignUp)
+function mapStateToProps(state) {
+    return {
+        errorMessage: state.auth.errorMessage
+    }
+}
+export default compose(connect(mapStateToProps, actions), reduxForm({ form: 'signup' }))(SignUp)

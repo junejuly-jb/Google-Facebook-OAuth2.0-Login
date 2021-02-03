@@ -36,7 +36,7 @@ passport.use('googleToken', new GooglePlusTokenStrategy({
     // check user exists
         
         try {
-
+            console.log(profile)
             const userExists = await User.findOne({ "google.id": profile.id })
             if (userExists) {
                 console.log('user exists')
